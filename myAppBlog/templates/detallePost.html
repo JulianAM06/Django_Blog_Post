@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle Posts</title>
+</head>
+<body>
+    <h1>Detalle Posts</h1>
+
+    <h4>{{posts.titulo}}</h4>
+    <p>{{posts.contenido}}</p>
+    <p>{{posts.fecha}}</p>
+    <a href="/"><button>Regresar Posts</button></a>
+
+    
+
+    <form action="" method="POST">
+
+        {% csrf_token %}
+
+        <p>
+            <label for="id_nombre">Nombre:</label>
+            <input type="text" name="nombre" maxlength="100" required="" id="id_nombre">   
+        </p>
+
+        <p>
+            <label for="id_email">Email:</label>
+            <input type="email" name="email" maxlength="254" required="" id="id_email">
+        </p>
+
+        <p>
+            <label for="id_contenido">Contenido:</label>
+            <textarea name="contenido" cols="40" rows="10" required="" id="id_contenido"></textarea>
+        </p>
+
+        <p>
+            <input type="hidden" name="activo" id="id_activo" readonly="True" value=1>
+        </p>
+
+        <p>
+            <input type="hidden" name="fkPost" required="" id="id_fkPost" value="{{posts.idPost}}" readonly="True">  
+        </p>
+
+        <button type="submit">Enviar</button>
+
+    </form>
+
+    <h2>Comentarios Post</h2>
+
+    {% for comentario in hola %}
+
+    {% if comentario.fkPost_id == posts.idPost %}
+
+    {% if comentario.activo == True %}
+    
+    <p>{{comentario.nombre}}</p>
+    <p>{{comentario.contenido}}</p>
+    <p>{{comentario.fecha}}</p>
+
+    {% endif %}
+
+    {% endif %}
+    
+    {% endfor %}
+
+
+
+</body>
+</html>
+
+
+
+
+
