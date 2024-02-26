@@ -1,74 +1,84 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalle Posts</title>
-</head>
-<body>
-    <h1>Detalle Posts</h1>
+{% extends 'base.html'%}
+{% load static %}
 
-    <h4>{{posts.titulo}}</h4>
-    <p>{{posts.contenido}}</p>
-    <p>{{posts.fecha}}</p>
-    <a href="/"><button>Regresar Posts</button></a>
 
+
+{% block content %}
+
+    <h1 class="text-white text-4xl container p-8">Descripcion Posts</h1>
+
+    <div class="container p-8">
+        <h4 class="text-white text-2xl">{{posts.titulo}}</h4>
+        <p class="text-white text-xl">{{posts.contenido}}</p>
+        <p class="text-white text-lg">{{posts.fecha}}</p>
+        <a href="/"><button class="m-6 middle none center rounded-lg bg-red-500 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-red-500/20 transition-all hover:shadow-lg hover:shadow-red-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none" data-ripple-light="true">Regresar Post</button></a>
+
+    </div>
+
+
+    <div class="container text-white p-4">
+
+        <h1 class="text-4xl mb-4">Formulario Post</h1>
+
+        <form action="" method="POST">
+
+            {% csrf_token %}
+    
+            <p>
+                <label for="id_nombre" class="text-white text-xl">Nombre:</label>
+                <input type="text" name="nombre" maxlength="100" required="" id="id_nombre" class="bg-black text-white border-2 border-red-800 rounded-lg mb-2">   
+            </p>
+    
+            <p>
+                <label for="id_email" class="text-white text-xl">Email:</label>
+                <input type="email" name="email" maxlength="254" required="" id="id_email" class="bg-black text-white border-2 border-red-800 rounded-lg mb-2">
+            </p>
+    
+            <p>
+                <label for="id_contenido" class="text-white text-xl">Contenido:</label>
+                <textarea name="contenido" cols="40" rows="10" required="" id="id_contenido" class="bg-black text-white border-2 border-red-800 rounded-lg"></textarea>
+            </p>
+    
+            <p>
+                <input type="hidden" name="activo" id="id_activo" readonly="True" value=1>
+            </p>
+    
+            <p>
+                <input type="hidden" name="fkPost" required="" id="id_fkPost" value="{{posts.idPost}}" readonly="True">  
+            </p>
+    
+            <button type="submit" class="m-6 middle none center rounded-lg bg-red-500 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-red-500/20 transition-all hover:shadow-lg hover:shadow-red-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none" data-ripple-light="true">Enviar comentario</button>
+    
+        </form>
+
+    </div>
+    
+    <div class="container">
+        <h2 class="text-white text-4xl container p-8">Comentarios Post</h2>
+    </div>
+    
+    <div class="mx-10">
+
+        {% for comentario in hola %}
+
+        {% if comentario.fkPost_id == posts.idPost %}
+
+        {% if comentario.activo == True %}
+        
+        <p class="text-white text-2xl mb-2">{{comentario.nombre}}</p>
+        <p class="text-white text-sm mb-2">{{comentario.contenido}}</p>
+        <p class="text-white text-xs mb-4">{{comentario.fecha}}</p>
+
+        {% endif %}
+
+        {% endif %}
+        
+        {% endfor %}
+
+    </div>
     
 
-    <form action="" method="POST">
-
-        {% csrf_token %}
-
-        <p>
-            <label for="id_nombre">Nombre:</label>
-            <input type="text" name="nombre" maxlength="100" required="" id="id_nombre">   
-        </p>
-
-        <p>
-            <label for="id_email">Email:</label>
-            <input type="email" name="email" maxlength="254" required="" id="id_email">
-        </p>
-
-        <p>
-            <label for="id_contenido">Contenido:</label>
-            <textarea name="contenido" cols="40" rows="10" required="" id="id_contenido"></textarea>
-        </p>
-
-        <p>
-            <input type="hidden" name="activo" id="id_activo" readonly="True" value=1>
-        </p>
-
-        <p>
-            <input type="hidden" name="fkPost" required="" id="id_fkPost" value="{{posts.idPost}}" readonly="True">  
-        </p>
-
-        <button type="submit">Enviar</button>
-
-    </form>
-
-    <h2>Comentarios Post</h2>
-
-    {% for comentario in hola %}
-
-    {% if comentario.fkPost_id == posts.idPost %}
-
-    {% if comentario.activo == True %}
-    
-    <p>{{comentario.nombre}}</p>
-    <p>{{comentario.contenido}}</p>
-    <p>{{comentario.fecha}}</p>
-
-    {% endif %}
-
-    {% endif %}
-    
-    {% endfor %}
-
-
-
-</body>
-</html>
-
+{% endblock %}
 
 
 
